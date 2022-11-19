@@ -27,9 +27,10 @@
 При выполнении задания можно пользоваться любыми средствами
 Для реализации основного меню можно использовать пример ниже или написать свой
 """
-    
+
+
 def print_history(history):
-    if (len(history) == 0):
+    if len(history) == 0:
         s = 'Вы еще не совершили ни одной покупки.'
     else:
         s = 'название - сумма'
@@ -45,11 +46,19 @@ def purchase(name, cost, account):
     return (cost, (name, str(cost)))
         
 
-
 def count():
-    account = 0
-    history = []
+    try:
+        with open('deposit.txt', 'r') as f:
+            account = int(f.read())
+    except:
+        account = 0
+    try:
+        with open('purchase_history.txt', 'r') as f:
+            history = list(map(lambda x: tuple(x.split(' - ')), f.read().strip().split('\n')))
+    except:
+        history = []
     while True:
+        print(f'На вашем счёте {account} средств, и {len(history)} покупок')
         print('1. пополнение счета')
         print('2. покупка')
         print('3. история покупок')
@@ -62,13 +71,24 @@ def count():
         elif choice == '2':
             cost = int(input("Введите стоимость покупки: "))
             name = input("Введите название покупки: ").strip()
-            pur = purchase(name, cost, account, history)
+            pur = purchase(name, cost, account)
             if type(pur) != str:
                 account -= pur[0]
                 history.append(pur[1])
+            else:
+                print(pur)
         elif choice == '3':
             print(print_history(history))
         elif choice == '4':
+            with open('deposit.txt', 'w') as f:
+                f.write(str(account))
+            with open('purchase_history.txt', 'w') as f:
+                for i in history:
+                    f.write(i[0] + ' - ' + i[1] + '\n')
             break
         else:
             print('Неверный пункт меню')
+
+
+if __name__ == '__main__':
+    count()
