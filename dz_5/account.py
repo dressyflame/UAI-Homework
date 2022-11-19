@@ -30,20 +30,19 @@
     
 def print_history(history):
     if (len(history) == 0):
-        print('Вы еще не совершили ни одной покупки.')
+        s = 'Вы еще не совершили ни одной покупки.'
     else:
-        print("название - сумма")
+        s = 'название - сумма'
         for i in range(len(history)):
-            print(*history[i], sep = ' - ')
-            
-def purchase(account, history):
-    cost = int(input("Введите стоимость покупки: "))
+            s += ('\n' + str(history[i][0]) + ' - ' + history[i][1])
+    return s
+
+
+def purchase(name, cost, account):
     if cost > account:
-        print("Это слишком дорого, у вас недостаточно средств!")
-        return
-    name = input("Введите название покупки: ").strip()
+        return "Это слишком дорого, у вас недостаточно средств!"
     account -= cost
-    history.append([name, str(cost)])
+    return (cost, (name, str(cost)))
         
 
 
@@ -61,9 +60,14 @@ def count():
             deposit = int(input('Введите сумму пополнения счета: '))
             account += deposit
         elif choice == '2':
-            purchase(account, history)      
+            cost = int(input("Введите стоимость покупки: "))
+            name = input("Введите название покупки: ").strip()
+            pur = purchase(name, cost, account, history)
+            if type(pur) != str:
+                account -= pur[0]
+                history.append(pur[1])
         elif choice == '3':
-            print_history(history)
+            print(print_history(history))
         elif choice == '4':
             break
         else:
