@@ -17,7 +17,7 @@ if __name__ == '__main__':
                   '8 - создатель программы',
                   '9 - играть в викторину',
                   '10 - мой банковский счет',
-                  '11 - смена рабочей директории (*необязательный пункт)',
+                  '11 - сохранить содержимое рабочей директории',
                   '12 - выход']
     while (1):
         print(*actionlist, sep = '\n')
@@ -82,7 +82,18 @@ if __name__ == '__main__':
             print()
             account.count()
 
-        #elif (n == 11):
+        elif (n == 11):
+            with open('listdir.txt', 'w') as f:
+                files, dirs = [], []
+                for i in os.listdir():
+                    my_file = Path('./' + i)
+                    if my_file.is_file():
+                        files.append(i)
+                    else:
+                        dirs.append(i)
+                s = 'Files: ' + ', '.join(files) + '\n'
+                s = s + 'Dirs: ' + ', '.join(dirs)
+                f.write(s)
 
         elif (n == 12):
             print("Досвидания!")
