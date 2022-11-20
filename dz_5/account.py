@@ -40,13 +40,12 @@ def print_history(history):
 
 
 def purchase(name, cost, account):
-    if cost > account:
-        return "Это слишком дорого, у вас недостаточно средств!"
-    account -= cost
-    return (cost, (name, str(cost)))
+    #Добавлен тернарный оператор
+    return "Это слишком дорого, у вас недостаточно средств!" if cost > account else (cost, (name, str(cost)))
         
 
 def count():
+    #exceptions
     try:
         with open('deposit.txt', 'r') as f:
             account = int(f.read())
@@ -54,7 +53,8 @@ def count():
         account = 0
     try:
         with open('purchase_history.txt', 'r') as f:
-            history = list(map(lambda x: tuple(x.split(' - ')), f.read().strip().split('\n')))
+            #добавлен генератор списка
+            history = [tuple(x.split(' - ')) for x in f.read().strip().split('\n')]
     except:
         history = []
     while True:

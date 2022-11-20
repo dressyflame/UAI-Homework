@@ -2,7 +2,16 @@ import os, sys, shutil
 from pathlib import Path
 
 import victory, account
+#decorator added
+def decor_info(f):
+    def inner(*args, **kwargs):
+        print('Some valuable info!!!!!')
+        result = f(*args, **kwargs)
+        return result
 
+    return inner
+
+@decor_info
 def prog_author():
     return 'Создатель программы - Коданев Никита'
 
