@@ -25,6 +25,9 @@ class Keg:
     def __str__(self):
         return str(self.__num)
 
+    def __eq__(self, other):
+        return self.num == other.num
+
 
 class Card:
     __rows = 3
@@ -69,6 +72,9 @@ class Card:
 
     def __contains__(self, item):
         return item in self.__data
+
+    def __eq__(self, other):
+        return str(self) == str(other)
 
     def cross_num(self, num):
         for index, item in enumerate(self.__data):
